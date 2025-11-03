@@ -56,10 +56,28 @@ const placeOrder = async(req, res) => {
         res.json({ success: false, message: "Error" })
 
     }
-
-
 }
 
+
+    const verifyOrder=async(req,res)=>{
+        const {orederId,success}=req.body;
+        try {
+            if(success=="true"){
+                await orderModel.findByIdAndUpdate(orederId,{paymet:true});
+                res.json({success:true,message:"paid"})
+            }
+            else{
+                await orderModel.findByIdAndDelete(orederId);
+                res.json({success:false,message:"Not Paid"})
+            }
+        } catch (error) {
+            console.log(error)
+            res.json({success:false,message:"Error"})
+
+            
+        }
+
+    }
 // api for updating order status
 const updateStatus = async (req,res) => {
 try {
@@ -72,7 +90,6 @@ try {
 
 }
 
-
-
-
 export { placeOrder,verifyOrder,userOrder,listOrders,updateStatus }
+
+
