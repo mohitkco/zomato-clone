@@ -46,6 +46,9 @@ const PlaceOrder = () => {
       items:orderItems,
       amount:getTotalCartAmount()+2,
     }
+    console.log("PLACEORDER -> token (from context):", token, "localStorage token:", localStorage.getItem("token"));
+console.log("FRONTEND sending token:", token);
+
     let response= await axios.post(url+"/api/order/place",orderData,{headers:{token}})
     if(response.data.success){
       const {session_url}=response.data;

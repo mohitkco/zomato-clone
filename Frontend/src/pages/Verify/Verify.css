@@ -3,6 +3,16 @@
     display: grid;
 }
 
+@keyframes rotate {
+    100%{
+        transform: rotate(360deg);
+    }
+    
+}
+.spinner {
+  animation: rotate 1s linear infinite;
+}
+
 .verify .spinner{
     width: 100px;
     height: 100px;
@@ -12,9 +22,4 @@
     border-radius: 50px;
     animation: rotate 1s infinite;
 }
-@keyframes rotate {
-    100%{
-        transform: rotate(360 deg);
-    }
-    
-}
+
