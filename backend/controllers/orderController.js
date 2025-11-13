@@ -10,17 +10,17 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 //placing user order for frontend
 const placeOrder = async(req, res) => {
 
-    const frontend_url = "http://localhost:5175";
+    const frontend_url = "http://localhost:5173";
     try {
         const newOrder = new orderModel({
-            userId: req.body.userId,
+            userId: req.userId,
             items: req.body.items,
             amount: req.body.amount,
             address: req.body.address
         })
 
         await newOrder.save();
-        await userModel.findByIdAndUpdate(req.body.userId, { cartData: {} });
+      await userModel.findByIdAndUpdate(req.userId, { cartData: {} });
 
         const line_items = req.body.items.map((item) => ({
             price_data: {
@@ -60,7 +60,7 @@ const placeOrder = async(req, res) => {
 //user orders for frontend
 const userOrders = async(req, res) => {
     try {
-        const orders = await orderModel.find({ userId: req.body.userId });
+        const orders = await orderModel.find({ userId: req.userId });
         res.json({ success: true, data: orders })
     } catch (error) {
         console.log(error); // This logs the full error on the server
@@ -71,7 +71,7 @@ const userOrders = async(req, res) => {
 const verifyOrder = async(req, res) => {
     const { orderId, success } = req.body;
     try {
-        if (success == "true") {
+        if (success === true || success === "true") {
             await orderModel.findByIdAndUpdate(orderId, { payment: true });
             res.json({ success: true, message: "paid" })
         } else {
