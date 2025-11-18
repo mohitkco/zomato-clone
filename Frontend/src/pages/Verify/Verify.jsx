@@ -11,7 +11,7 @@ const Verify = () => {
     const {url,token} = useContext(StoreContext);
     const navigate=useNavigate();
     const verifyPayment=async()=>{
-        const response = await axios.post(url+"/api/order/verify",{success: success === "true",orderId},{ headers: { token } })
+        const response = await axios.post(url+"/api/order/verify",{success: success === "true",orderId},{ headers: { token ,"Content-Type": "application/json"} })
         await new Promise(r => setTimeout(r, 500));
         if(response.data.success){
             navigate("/myorders");
